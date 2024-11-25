@@ -20,39 +20,37 @@ const CompanyDetails = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCompany = async () => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null); 
       try {
         const companyData = await fetchCompanyDetails(companyId);
         setCompany(companyData);
-      } catch (error) {
-        setError("Error fetching company details");
-        console.error("Error fetching company details:", error);
-      }
-    };
 
-    const fetchUsersForCompany = async () => {
-      try {
         const usersData = await fetchUsers();
         const filteredUsers = usersData?.filter(
           (user) => user?.companyId === companyId
         );
         setUsers(filteredUsers);
       } catch (error) {
-        setError("Error fetching users");
-        console.error("Error fetching users:", error);
+        setError("Error fetching data");
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCompany();
-    fetchUsersForCompany();
+    fetchData();
   }, [companyId]);
 
-  if (loading) return <CircularProgress />;
+  if (loading) return <CircularProgress sx={{ marginTop: 4 }} />;
 
   if (error) {
-    return <Alert severity="error">{error}</Alert>;
+    return (
+      <Alert severity="error" sx={{ marginTop: 4 }}>
+        {error}
+      </Alert>
+    );
   }
 
   return (
@@ -63,8 +61,12 @@ const CompanyDetails = () => {
             <CardContent>
               <Box display="flex" alignItems="center">
                 <img
-                  src={company.logo}
-                  alt={company.companyName}
+                  src={
+                    company?.logo
+                      ? company?.logo
+                      : "/assets/Image_not_available.png"
+                  }
+                  alt={company?.companyName}
                   style={{
                     width: 100,
                     height: 100,
@@ -73,9 +75,9 @@ const CompanyDetails = () => {
                   }}
                 />
                 <div>
-                  <Typography variant="h4">{company.companyName}</Typography>
+                  <Typography variant="h4">{company?.companyName}</Typography>
                   <Typography variant="body1">
-                    {company.address || "No address available"}
+                    {company?.address || "No address available"}
                   </Typography>
                 </div>
               </Box>
@@ -86,20 +88,21 @@ const CompanyDetails = () => {
             Users
           </Typography>
           <Stack
-            direction="row"
+            direction={{ xs: "column", sm: "row" }} // Adjusts direction based on screen size
             spacing={2}
             flexWrap="wrap"
-            justifyContent="space-between"
+            // justifyContent="space-around"
           >
-            {users.map((user) => (
+            {users?.map((user) => (
               <Card
-                key={user.id}
+                key={user?.id}
                 sx={{
-                  width: { xs: "100%", sm: "48%", md: "30%",xl: "48%" }, // Responsive width based on screen size
+                  width: { xs: "98%", sm: "48%", md: "30%" },
                   marginBottom: 2,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  justifyContent: "space-evenly",
                 }}
               >
                 <CardContent>

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  fetchCompanyDetails,
-  fetchUserDetails,
-} from "../services/api";
+import { fetchCompanyDetails, fetchUserDetails } from "../services/api";
 import {
   Typography,
   CircularProgress,
@@ -15,22 +12,19 @@ import {
 } from "@mui/material";
 
 const UserDetails = () => {
-  const { userId } = useParams(); // Get userId from URL params
+  const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch user and company details
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
 
-        // Fetch user details
         const userDetails = await fetchUserDetails(userId);
         setUser(userDetails);
 
-        // Fetch company details if user is associated with a company
         if (userDetails.companyId) {
           const companyDetails = await fetchCompanyDetails(
             userDetails.companyId
@@ -65,7 +59,6 @@ const UserDetails = () => {
         margin: "auto",
       }}
     >
-      {/* User Information Card */}
       {user ? (
         <Card sx={{ padding: 3, marginBottom: 3, boxShadow: 3 }}>
           <Box
@@ -115,7 +108,6 @@ const UserDetails = () => {
           </Typography>
           <Divider sx={{ marginBottom: 2 }} />
 
-          {/* Company Information */}
           {company && (
             <Box>
               <Typography variant="h6" sx={{ marginBottom: 1 }}>

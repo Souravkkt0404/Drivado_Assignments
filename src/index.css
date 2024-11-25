@@ -1,11 +1,19 @@
-.logo-size {
-    width: 80px;
-    height: 80px;
+.nav-link {
+    color: black !important;
+    font-weight: 300;
 }
 
-.custom-navbar {
-    height: 80px;
-    padding-bottom: 5px;
-    border-radius: 0 0 20px 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.nav-link:hover {
+    border-radius: 7px;
+    padding: 6px 0px;
+    background: #11ADE8;
+    transition: 0.2s;
+}
+
+.line-height-reduced {
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
 }
